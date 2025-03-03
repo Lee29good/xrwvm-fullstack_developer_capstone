@@ -124,3 +124,10 @@ img{
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
 }
+
+.card-img-top {
+    width: 100%;  /* 讓圖片寬度適應卡片 */
+    height: 50%; /* 設定固定高度，確保所有圖片大小一致 */
+    object-fit: cover; /* 確保圖片按比例填充，不會變形 */
+    border-radius: 5px; /* 圖片圓角，讓設計更美觀（可選） */
+}
