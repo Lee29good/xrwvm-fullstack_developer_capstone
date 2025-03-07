@@ -24,17 +24,43 @@ const Dealer = () => {
   let reviews_url = root_url+`djangoapp/reviews/dealer/${id}`;
   let post_review = root_url+`postreview/${id}`;
   
-  const get_dealer = async ()=>{
+//   const get_dealer = async ()=>{
+//     const res = await fetch(dealer_url, {
+//       method: "GET"
+//     });
+//     const retobj = await res.json();
+    
+//     if(retobj.status === 200) {
+//       let dealerobjs = Array.from(retobj.dealer)
+//       setDealer(dealerobjs[0])
+//     }
+//   }
+
+  const get_dealer = async () => {
+  try {
     const res = await fetch(dealer_url, {
       method: "GET"
     });
-    const retobj = await res.json();
-    
-    if(retobj.status === 200) {
-      let dealerobjs = Array.from(retobj.dealer)
-      setDealer(dealerobjs[0])
+
+    // 檢查是否成功返回
+    if (!res.ok) {
+      console.error('Failed to fetch dealer data:', res.status, res.statusText);
+      return;
     }
+
+    const retobj = await res.json();
+    console.log('Response from dealer API:', retobj); // 在這裡輸出返回的數據
+
+    if (retobj.status === 200) {
+      console.log('Dealer data:', retobj.dealer); // 確認dealer數據的內容
+      setDealer(retobj.dealer);
+    } else {
+      console.error('Error with the status code:', retobj.status);
+    }
+  } catch (error) {
+    console.error('Error fetching dealer data:', error);
   }
+}
 
   const get_reviews = async ()=>{
     const res = await fetch(reviews_url, {
@@ -60,9 +86,7 @@ const Dealer = () => {
     get_dealer();
     get_reviews();
     if(sessionStorage.getItem("username")) {
-      setPostReview(<a href={post_review}><img src={review_icon} style={{width:'10%',marginLeft:'10px',marginTop:'10px'}} alt='Post Review'/></a>)
-
-      
+      setPostReview(<a href={post_review}><img src={review_icon} style={{width:'10%',marginLeft:'10px',marginTop:'10px'}} alt='Post Review'/></a>)      
     }
   },[]);  
 
