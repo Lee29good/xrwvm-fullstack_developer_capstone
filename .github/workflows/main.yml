@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
-    
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -27,8 +27,9 @@ jobs:
 
     - name: Run Linter
       run: |
-        flake8 .
-        echo "Linted all Python files successfully"
+        echo "Running flake8 linter on Python files..."
+        find . -name "*.py" | xargs flake8
+        echo "Python linting completed successfully."
 
   lint_js:
     name: Lint JavaScript Files
@@ -41,13 +42,13 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 20
+        node-version: 18
 
-    - name: Install Dependencies
-      run: |
-        npm install --save-dev jshint
+    - name: Install JSHint
+      run: npm install -g jshint
 
     - name: Run Linter
       run: |
-        npx jshint .
-        echo "Linted all JavaScript files successfully"
+        echo "Running JSHint linter on JavaScript files..."
+        find . -name "*.js" | xargs jshint
+        echo "JavaScript linting completed successfully."
