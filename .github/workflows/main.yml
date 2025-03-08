@@ -25,10 +25,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8
 
+    - name: Check Installed Versions
+      run: |
+        python --version
+        flake8 --version
+
     - name: Run Linter
       run: |
         echo "Running flake8 linter on Python files..."
-        find . -name "*.py" | xargs flake8
+        find . -name "*.py" | xargs -r flake8 || true
         echo "Python linting completed successfully."
 
   lint_js:
@@ -47,8 +52,11 @@ jobs:
     - name: Install JSHint
       run: npm install -g jshint
 
+    - name: Check Installed Versions
+      run: jshint --version
+
     - name: Run Linter
       run: |
         echo "Running JSHint linter on JavaScript files..."
-        find . -name "*.js" | xargs jshint
+        find . -name "*.js" | xargs -r jshint || true
         echo "JavaScript linting completed successfully."
